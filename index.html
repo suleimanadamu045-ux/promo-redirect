@@ -2,78 +2,139 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Безопасный переход...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Безопасный переход на Betcity...</title>
     <style>
+        /* --- Базовые стили для центрации --- */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             display: flex; justify-content: center; align-items: center; 
-            height: 100vh; background-color: #f4f4f9; text-align: center; 
-            margin: 0; padding: 20px; box-sizing: border-box; 
+            height: 100vh; background-color: #f4f7f6; text-align: center; 
+            margin: 0; padding: 20px; box-sizing: border-box; overflow: hidden;
         }
         .container { 
-            background: white; padding: 30px; border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 400px; width: 100%;
+            background: white; padding: 40px 30px; border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 400px; width: 100%;
+            position: relative;
         }
-        h2 { color: #333; margin-top: 0; }
-        p { color: #666; font-size: 16px; line-height: 1.5; }
+
+        /* --- Типографика --- */
+        h2 { color: #2c3e50; margin-top: 0; font-size: 22px; }
+        p { color: #7f8c8d; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        
+        /* --- Контейнер инструкции для iOS (скрыт по умолчанию) --- */
+        .ios-guide-container { display: none; margin-top: 20px; }
+        .bonus-highlight { 
+            background: #eef7ff; color: #007bff; padding: 10px; 
+            border-radius: 8px; font-weight: bold; margin-bottom: 20px;
+        }
+        
+        /* --- Анимированный указатель и пульсация для iOS (Чистый CSS) --- */
+        .pointer-animation {
+            position: fixed;
+            top: 25px; /* Указываем на правый верхний угол */
+            right: 25px;
+            width: 70px;
+            height: 70px;
+            pointer-events: none; /* Пропускаем клики */
+        }
+        .pulse {
+            width: 100%; height: 100%;
+            background-color: rgba(0, 123, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse-border 2s infinite;
+            position: relative;
+        }
+        .arrow {
+            position: absolute;
+            top: 15px; right: 15px;
+            width: 0; height: 0;
+            border-left: 20px solid transparent;
+            border-bottom: 20px solid rgba(0, 123, 255, 0.9); /* Основание стрелки */
+            transform: rotate(45deg);
+            animation: arrow-move 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% { transform: scale(0.6); opacity: 1; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        @keyframes arrow-move {
+            0%, 100% { transform: translate(0, 0) rotate(45deg); opacity: 1; }
+            50% { transform: translate(10px, -10px) rotate(45deg); opacity: 0.8; }
+        }
+
+        /* --- Страховочная кнопка (Забрать бонус) --- */
         .btn { 
-            display: inline-block; margin-top: 20px; padding: 14px 24px; 
+            display: inline-block; padding: 14px 30px; 
             background-color: #007bff; color: white; text-decoration: none; 
-            border-radius: 8px; font-weight: bold; width: 80%; box-sizing: border-box;
+            border-radius: 8px; font-weight: bold; width: 100%; box-sizing: border-box;
+            transition: background-color 0.2s;
         }
-        .ios-instruction { 
-            display: none; margin-top: 15px; background: #eef7ff; 
-            padding: 15px; border-radius: 8px; border-left: 4px solid #007bff; 
-            text-align: left; font-size: 15px;
-        }
+        .btn:hover { background-color: #0056b3; }
+
+        /* --- Блок загрузки (Android и начальный iOS) --- */
+        #status-wrapper { display: flex; flex-direction: column; align-items: center; }
+        .loading-dots { font-size: 30px; color: #007bff; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 id="status">Загрузка платформы...</h2>
-    <p id="description">Пожалуйста, подождите пару секунд.</p>
-    
-    <div id="ios-guide" class="ios-instruction">
-        <p style="margin-top:0;"><b>Встроенный браузер ограничивает функции регистрации.</b> Чтобы продолжить:</p>
-        <ol style="margin-bottom:0; padding-left: 20px;">
-            <li>Нажмите на <b>три точки</b> ⋯ (или иконку компаса) в углу экрана.</li>
-            <li>Выберите <b>«Открыть в браузере»</b> (Open in system browser).</li>
-        </ol>
+    <div id="status-wrapper">
+        <h2 id="status">Переходим на Betcity...</h2>
+        <div class="loading-dots">...</div>
+        <p id="description">Пожалуйста, подождите. Instagram блокирует функции сайта.</p>
     </div>
 
-    <a href="#" id="fallback-link" class="btn" style="display:none;">Перейти к регистрации</a>
+    <div id="ios-guide" class="ios-guide-container">
+        <div class="bonus-highlight">🎁 Ваш бонус готов!</div>
+        
+        <h2>Чтобы продолжить:</h2>
+        
+        <p><b>Встроенный браузер ограничивает регистрацию.</b> Пожалуйста:</p>
+        
+        <div class="pointer-animation">
+            <div class="pulse"></div>
+            <div class="arrow"></div>
+        </div>
+        
+        <div style="text-align: left; padding: 15px; background: #fafafa; border-radius: 8px; border-left: 4px solid #007bff;">
+            <ol style="margin: 0; padding-left: 20px; color: #555; font-size: 15px;">
+                <li>Нажмите на <b>три точки</b> ⋯ (или иконку Safari) в правом верхнем углу.</li>
+                <li>Выберите <b>«Открыть в Safari»</b> (Open in system browser).</li>
+            </ol>
+        </div>
+        
+        <div style="margin-top:25px;">
+             <p style="font-size:14px; color:#999;">Если это не сработало, нажмите кнопку:</p>
+             <a href="#" id="fallback-link" class="btn">Забрать бонус в Safari</a>
+        </div>
+    </div>
 </div>
 
 <script>
-    // 1. Ваша базовая целевая ссылка
+    // ==========================================
+    // НАСТРОЙКА: Ссылка на сайт Betcity
+    // ==========================================
     const baseUrlString = "https://betcity.by/mobile/ru/reg#utm_content=bonus_ig_lead&utm_source=ig&utm_medium=cpc&utm_campaign=bonus_ig_lead";
     
-    // 2. Функция для "проброса" динамических UTM-меток
+    // Функция для проброса динамических параметров с GitHub Pages ссылки
     function buildFinalUrl() {
         try {
-            // Создаем объект URL из вашей ссылки
             const finalUrl = new URL(baseUrlString);
-            
-            // Получаем все параметры (query string), с которыми пользователь пришел на прокладку
             const currentParams = new URLSearchParams(window.location.search);
-            
-            // Перебираем и добавляем их к финальной ссылке
-            currentParams.forEach((value, key) => {
-                finalUrl.searchParams.set(key, value);
-            });
-            
+            currentParams.forEach((value, key) => finalUrl.searchParams.set(key, value));
             return finalUrl.toString();
         } catch (e) {
-            // Фолбек на случай старых устройств, не поддерживающих URL API
-            return baseUrlString;
+            return baseUrlString; // Fallback для старых устройств
         }
     }
 
     const targetUrl = buildFinalUrl();
     
-    // Подготовка ссылки для Android (убираем https://)
+    // Подготовка ссылки для Android Intent (убираем протокол)
     const urlWithoutProtocol = targetUrl.replace(/^https?:\/\//, "");
 
     const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -85,26 +146,38 @@
     window.onload = function() {
         if (isInstagram || isFacebook) {
             if (isAndroid) {
+                // Магия Android Intent (работает отлично)
                 document.getElementById('status').innerText = "Запуск Chrome...";
-                // Intent для Android
                 window.location.href = "intent://" + urlWithoutProtocol + "#Intent;scheme=https;package=com.android.chrome;end";
-                
-                // Страховочная кнопка
+                // Показываем кнопку, если intent не сработал
                 setTimeout(() => {
+                    document.getElementById('status-wrapper').style.display = "none";
                     document.getElementById('fallback-link').href = targetUrl;
+                    document.getElementById('fallback-link').innerText = "Перейти к регистрации";
                     document.getElementById('fallback-link').style.display = "inline-block";
                 }, 2000);
             } 
             else if (isIOS) {
-                document.getElementById('status').innerText = "Требуется Safari";
-                document.getElementById('description').style.display = "none";
-                document.getElementById('ios-guide').style.display = "block";
+                // --- Логика для iOS Update (UX с Chromefallback) ---
+                document.getElementById('status').innerText = "Запуск Safari...";
                 
-                document.getElementById('fallback-link').href = targetUrl;
-                document.getElementById('fallback-link').style.display = "inline-block";
+                // 1. CHROME FALLBACK: Пытаемся открыть Google Chrome на iOS
+                const chromeUrl = targetUrl.replace(/^https:\/\//, "googlechromes://").replace(/^http:\/\//, "googlechrome://");
+                window.location.href = chromeUrl;
+                
+                // 2. SAFARI GUIDE: Если Chrome нет, через 1.5 секунды показываем инструкцию
+                setTimeout(() => {
+                    // Скрываем начальное сообщение
+                    document.getElementById('status-wrapper').style.display = "none";
+                    // Показываем инструкцию с анимированной стрелкой
+                    document.getElementById('ios-guide').style.display = "block";
+                    // Настраиваем страховочную кнопку
+                    document.getElementById('fallback-link').href = targetUrl;
+                    document.getElementById('fallback-link').style.display = "inline-block";
+                }, 1500);
             }
         } else {
-            // Если открыли с ПК или в нормальном мобильном браузере - редирект мгновенный
+            // Мгновенный редирект для десктопа или нормальных мобильных браузеров
             window.location.replace(targetUrl);
         }
     };
